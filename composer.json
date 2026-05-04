@@ -1,13 +1,13 @@
 {
-  "name": "simpod/skill-php",
+  "name": "simpod/skills",
   "description": "AI agent skill for idiomatic PHP development guidance.",
   "license": "MIT",
-  "homepage": "https://github.com/simPod/skill-php",
+  "homepage": "https://github.com/simPod/skills",
   "require": {
     "php": ">=8.2"
   },
   "support": {
-    "issues": "https://github.com/simPod/skill-php/issues",
-    "source": "https://github.com/simPod/skill-php"
+    "issues": "https://github.com/simPod/skills/issues",
+    "source": "https://github.com/simPod/skills"
   }
 }

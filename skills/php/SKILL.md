@@ -3,7 +3,7 @@ name: php
 description:
   Guides agents in idiomatic PHP development, typing, tests, code style, and
   verification. Use when writing, reviewing, refactoring, or debugging PHP code,
-  Composer packages, PHPUnit tests, PHPStan/Psalm issues, PHP_CodeSniffer style,
+  Composer packages, PHPUnit tests, PHPStan issues, PHP_CodeSniffer style,
   value-object boundaries, or PHP benchmark workflows.
 license: MIT
 compatibility: opencode
@@ -53,8 +53,8 @@ metadata:
 
 - Check the repository instructions before choosing host tooling, Docker, remote
   dev-server commands, or Composer scripts.
-- Do not weaken PHPStan, Psalm, PHPCS, PHPUnit, security, or build settings to
-  make the current task pass.
+- Do not weaken PHPStan, PHPCS, PHPUnit, security, or build settings to make the
+  current task pass.
 - Run local PHP checks only when the user asks, the repository requires local
   validation, or a narrow command is the fastest way to diagnose or unblock the
   task.
