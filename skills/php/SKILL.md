@@ -46,6 +46,8 @@ metadata:
 - Use `~` as the PHP regex delimiter unless the surrounding project consistently
   uses another delimiter.
 - Prefer named arguments for boolean flags in PHP calls.
+- When using named arguments, keep them in the same order as declared in the
+  function or method signature.
 - Do not add return types to PHP arrow functions.
 - Prefer concrete imports and types over fully dynamic or stringly typed code.
 
