@@ -62,8 +62,8 @@ metadata:
 
 - Do not add return types to PHP arrow functions.
 - Prefer concrete imports and types over fully dynamic or stringly typed code.
-- Prefer direct property access over trivial getters. Modern PHP features such as
-  `public private(set)` are encouraged when they express the intended API.
+- Prefer direct property access over trivial getters. Modern PHP features such
+  as `public private(set)` are encouraged when they express the intended API.
 
 ## Verification
 

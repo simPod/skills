@@ -44,6 +44,8 @@ metadata:
 - Use `Ds\Queue` for FIFO and `Ds\Stack` for LIFO in v1.
 - Use `Ds\PriorityQueue`, not `Ds\Heap`, in v1.
 - Use `Ds\Hashable`, not `Ds\Key`, in v1.
+- Prefer native collection operations such as `map()`, `filter()`, `reduce()`,
+  and `join()` over converting to arrays for PHP array functions.
 - Keep `Ds\*` types inside code that can require `ext-ds`; convert to arrays at
   external boundaries.
 

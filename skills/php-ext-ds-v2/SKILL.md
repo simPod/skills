@@ -44,6 +44,8 @@ metadata:
 - Use `Ds\Seq` for list, stack, queue, and deque use cases in v2.
 - Use `Ds\Heap` instead of `Ds\PriorityQueue` in v2.
 - Use `Ds\Key` instead of `Ds\Hashable` in v2.
+- Prefer native collection operations such as `map()`, `filter()`, `reduce()`,
+  and `join()` over converting to arrays for PHP array functions.
 - Keep `Ds\*` types inside code that can require `ext-ds`; convert to arrays at
   external boundaries.
 
