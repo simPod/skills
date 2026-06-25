@@ -64,6 +64,9 @@ metadata:
 - Prefer concrete imports and types over fully dynamic or stringly typed code.
 - Prefer direct property access over trivial getters. Modern PHP features such
   as `public private(set)` are encouraged when they express the intended API.
+- Call magic methods explicitly instead of relying on implicit object syntax:
+  prefer `$x->__toString()` over `(string) $x` and `$x->__invoke($arg)` over
+  `$x($arg)` when `$x` is an invokable object.
 - On PHP 8.4+, do not wrap `new` expressions in parentheses just to call a
   method or access a member. Prefer `new Set($items)->map(...)` over
   `(new Set($items))->map(...)`.
