@@ -48,12 +48,15 @@ metadata:
 - Prefer named arguments for boolean flags in PHP calls.
 - When using named arguments, keep them in the same order as declared in the
   function or method signature.
+- Prefix PHPDoc array-shape tags with `@phpstan-` because array shapes are
+  analyzer-only detail: use `@phpstan-param`, `@phpstan-return`, or
+  `@phpstan-var` instead of `@param`, `@return`, or `@var`.
 - Split long PHPDoc array shapes across multiple lines instead of keeping dense
-  `@var array{...}` annotations inline. For example:
+  `@phpstan-var array{...}` annotations inline. For example:
 
   ```php
   /**
-   * @var array{
+   * @phpstan-var array{
    *     level: string,
    *     isActive?: bool,
    * } $options
