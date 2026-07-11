@@ -28,6 +28,8 @@ metadata:
   unless there is a concrete compatibility need.
 - Prefer the most concrete correct PHP return type. If a method returns a
   `Generator`, type it as `Generator` rather than broader `iterable`.
+- If `composer.json` requires `ext-ds`, prefer `Ds` collections over arrays or
+  SPL collections when modeling maps, sets, queues, stacks, or typed sequences.
 
 ## Tests
 
