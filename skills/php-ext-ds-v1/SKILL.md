@@ -46,6 +46,10 @@ metadata:
 - Use `Ds\Hashable`, not `Ds\Key`, in v1.
 - Prefer native collection operations such as `map()`, `filter()`, `reduce()`,
   and `join()` over converting to arrays for PHP array functions.
+- For value-only transforms, prefer constructing the collection from the
+  iterable and calling native `map()` directly, for example
+  `new Vector($items)->map(...)`. Do not add helper wrappers just to expose
+  unused keys; this applies to `Vector`, `Set`, `Map`, and other collections.
 - Keep `Ds\*` types inside code that can require `ext-ds`; convert to arrays at
   external boundaries.
 
