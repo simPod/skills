@@ -68,7 +68,8 @@ metadata:
 - Do not add return types to PHP arrow functions.
 - Prefer concrete imports and types over fully dynamic or stringly typed code.
 - Prefer direct property access over trivial getters. Modern PHP features such
-  as `public private(set)` are encouraged when they express the intended API.
+  as `private(set)` are encouraged when they express the intended API; it is
+  shorthand for `public private(set)`.
 - Call magic methods explicitly instead of relying on implicit object syntax:
   prefer `$x->__toString()` over `(string) $x` and `$x->__invoke($arg)` over
   `$x($arg)` when `$x` is an invokable object.
