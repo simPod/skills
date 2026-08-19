@@ -1,10 +1,10 @@
 ---
 name: opencode-session-db
-description: Finds OpenCode sessions in the local SQLite database and safely restores archived sessions. Use when locating a prior OpenCode discussion, fetching a session ID, checking archive status, or unarchiving an OpenCode session.
+description: Finds, renames, and restores OpenCode sessions in the local SQLite database. Use when locating a prior OpenCode discussion, fetching a session ID, checking archive status, renaming a session, or unarchiving an OpenCode session.
 license: MIT
 compatibility: opencode
 metadata:
-  version: '0.1.0'
+  version: '0.2.0'
   author: simPod
 ---
 
@@ -98,3 +98,30 @@ sqlite3 "$DB" "
 ```
 
 An `is_unarchived` value of `1` confirms success. Do not change session messages or parts.
+
+## Rename a Session
+
+Rename only after the user explicitly requests it and gives or confirms both the
+exact session ID and new title. Inspect the session first. Escape both values
+before the SQL update, update only `session.title`, and verify the new title
+immediately.
+
+```sh
+SESSION_ID='<session-id>'
+SESSION_TITLE='<new title>'
+SESSION_ID_SQL=${SESSION_ID//\'/\'\'}
+SESSION_TITLE_SQL=${SESSION_TITLE//\'/\'\'}
+
+sqlite3 -header -column "$DB" "
+  UPDATE session
+  SET title = '$SESSION_TITLE_SQL'
+  WHERE id = '$SESSION_ID_SQL';
+
+  SELECT id, title
+  FROM session
+  WHERE id = '$SESSION_ID_SQL';
+"
+```
+
+The result must contain the exact session ID and requested title. Do not change
+session messages, parts, archive state, or timestamps.

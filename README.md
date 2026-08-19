@@ -4,7 +4,7 @@ AI agent skills for idiomatic PHP development.
 
 This repository contains these skills:
 
-- `opencode-session-db`: OpenCode session lookup and archive-state management.
+- `opencode-session-db`: OpenCode session lookup, rename, and archive-state management.
 - `onepassword-cli`: safe 1Password CLI secret injection.
 - `php`: general PHP typing, testing, style, and verification guidance.
 - `php-ext-ds-v1`: `ext-ds:^1` API notes.
