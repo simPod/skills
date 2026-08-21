@@ -4,7 +4,7 @@ description: Finds, renames, and restores OpenCode sessions in the local SQLite 
 license: MIT
 compatibility: opencode
 metadata:
-  version: '0.2.0'
+  version: '0.3.0'
   author: simPod
 ---
 
@@ -23,22 +23,70 @@ PROJECT_ROOT=$(git rev-parse --show-toplevel)
 PROJECT_ROOT_SQL=${PROJECT_ROOT//\'/\'\'}
 ```
 
-## Latest Active Session
+## Current Chat Session
 
-Return the most recently updated, non-archived session ID:
+Retrieve the session for the current chat, not merely the most recently updated
+session in the current project.
+
+1. If the user supplied an exact session ID, inspect that ID and use it. Do not
+   search for a substitute.
+2. Otherwise, select two to four distinctive identifiers from the current chat.
+   Prefer a merge-request number, branch name, class name, error string, or
+   another exact phrase. Do not use generic terms such as `session`, `OpenCode`,
+   `ID`, or the project name.
+3. Search the 20 most recently updated project sessions. A candidate must
+   contain every identifier in user-authored text, even when the identifiers
+   occur in different messages.
 
 ```sh
-sqlite3 -noheader "$DB" "
-  SELECT id
-  FROM session
-  WHERE directory = '$PROJECT_ROOT_SQL'
-    AND time_archived IS NULL
-  ORDER BY time_updated DESC
-  LIMIT 1;
+sqlite3 -header -column "$DB" "
+  WITH recent_sessions AS (
+    SELECT id, time_archived, time_updated, title
+    FROM session
+    WHERE directory = '$PROJECT_ROOT_SQL'
+    ORDER BY time_updated DESC
+    LIMIT 20
+  )
+  SELECT recent_sessions.id, recent_sessions.title,
+         datetime(recent_sessions.time_updated / 1000, 'unixepoch', 'localtime') AS updated_at,
+         CASE WHEN recent_sessions.time_archived IS NULL THEN 'active' ELSE 'archived' END AS archive_status
+  FROM recent_sessions
+  WHERE EXISTS (
+    SELECT 1
+    FROM message
+    JOIN part ON part.message_id = message.id
+    WHERE message.session_id = recent_sessions.id
+      AND json_extract(message.data, '$.role') = 'user'
+      AND json_extract(part.data, '$.type') = 'text'
+      AND lower(coalesce(json_extract(part.data, '$.text'), '')) LIKE '%<identifier-1>%'
+  )
+  AND EXISTS (
+    SELECT 1
+    FROM message
+    JOIN part ON part.message_id = message.id
+    WHERE message.session_id = recent_sessions.id
+      AND json_extract(message.data, '$.role') = 'user'
+      AND json_extract(part.data, '$.type') = 'text'
+      AND lower(coalesce(json_extract(part.data, '$.text'), '')) LIKE '%<identifier-2>%'
+  )
+  ORDER BY recent_sessions.time_updated DESC;
 "
 ```
 
-Return only the ID when the user asks only for the session ID.
+4. Add one `EXISTS` block for each additional identifier. Replace identifiers
+   with correctly SQL-escaped, lower-case values.
+5. Return the ID only when exactly one candidate matches. Inspect that session's
+   ID, title, directory, update time, and archive state before returning it.
+6. If no candidate matches, retry with one less-specific identifier. If multiple
+   candidates match, show their IDs, titles, update times, and archive states,
+   then ask the user to choose. Never select a candidate only because it is
+   newest.
+7. If no distinctive identifier exists, return an ID only when the project has
+   exactly one non-archived session. Otherwise, ask for an exact ID or a
+   distinctive phrase.
+
+Read only user-authored message text to identify the chat. Do not print message
+contents. `time_updated` limits and orders candidates; it does not select one.
 
 ## Find a Previous Discussion
 
