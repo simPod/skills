@@ -1,6 +1,6 @@
 {
   "name": "simpod/skills",
-  "description": "AI agent skill for idiomatic PHP development guidance.",
+  "description": "AI agent skills for software development guidance.",
   "license": "MIT",
   "homepage": "https://github.com/simPod/skills",
   "require": {
