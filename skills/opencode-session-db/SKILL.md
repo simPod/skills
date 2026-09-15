@@ -4,14 +4,15 @@ description: Finds, renames, and restores OpenCode sessions in the local SQLite 
 license: MIT
 compatibility: opencode
 metadata:
-  version: '0.3.0'
+  version: '0.4.0'
   author: simPod
 ---
 
 # OpenCode Session Database
-```sh
-DB="${XDG_DATA_HOME:-$HOME/.local/share}/opencode/opencode.db"
-```
+
+Use `opencode db` for all database access. Do not locate the database file or
+call `sqlite3` directly. Use `--format tsv` for readable tabular results and
+`--format json` when structured output is useful.
 
 ## Scope
 
@@ -39,7 +40,7 @@ session in the current project.
    occur in different messages.
 
 ```sh
-sqlite3 -header -column "$DB" "
+opencode db --format tsv "
   WITH recent_sessions AS (
     SELECT id, time_archived, time_updated, title
     FROM session
@@ -95,7 +96,7 @@ reasoning, and generated files. Replace `<term>` with a lower-case search term.
 Add `AND` clauses for multiple required terms.
 
 ```sh
-sqlite3 -header -column "$DB" "
+opencode db --format tsv "
   SELECT s.id, s.title,
          datetime(s.time_updated / 1000, 'unixepoch', 'localtime') AS updated_at,
          CASE WHEN s.time_archived IS NULL THEN 'active' ELSE 'archived' END AS archive_status
@@ -118,7 +119,7 @@ the ID, title, update time, and archive status, and label possible matches.
 ## Inspect Before Restore
 
 ```sh
-sqlite3 -header -column "$DB" "
+opencode db --format tsv "
   SELECT id, title, directory,
          datetime(time_created / 1000, 'unixepoch', 'localtime') AS created_at,
          datetime(time_updated / 1000, 'unixepoch', 'localtime') AS updated_at,
@@ -134,7 +135,7 @@ Only unarchive after the user explicitly requests it and gives or confirms the
 exact ID. Update only `session.time_archived` and verify it immediately.
 
 ```sh
-sqlite3 "$DB" "
+opencode db --format tsv "
   UPDATE session
   SET time_archived = NULL
   WHERE id = '<session-id>';
@@ -160,7 +161,7 @@ SESSION_TITLE='<new title>'
 SESSION_ID_SQL=${SESSION_ID//\'/\'\'}
 SESSION_TITLE_SQL=${SESSION_TITLE//\'/\'\'}
 
-sqlite3 -header -column "$DB" "
+opencode db --format tsv "
   UPDATE session
   SET title = '$SESSION_TITLE_SQL'
   WHERE id = '$SESSION_ID_SQL';
