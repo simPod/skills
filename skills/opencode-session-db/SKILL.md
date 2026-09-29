@@ -1,6 +1,9 @@
 ---
 name: opencode-session-db
-description: Finds, renames, and restores OpenCode sessions in the local SQLite database. Use when locating a prior OpenCode discussion, fetching a session ID, checking archive status, renaming a session, or unarchiving an OpenCode session.
+description:
+  Finds, renames, and restores OpenCode sessions in the local SQLite database.
+  Use when locating a prior OpenCode discussion, fetching a session ID, checking
+  archive status, renaming a session, or unarchiving an OpenCode session.
 license: MIT
 compatibility: opencode
 metadata:
@@ -146,7 +149,8 @@ opencode db --format tsv "
 "
 ```
 
-An `is_unarchived` value of `1` confirms success. Do not change session messages or parts.
+An `is_unarchived` value of `1` confirms success. Do not change session messages
+or parts.
 
 ## Rename a Session
 
