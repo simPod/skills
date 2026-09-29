@@ -10,6 +10,7 @@ This repository contains these skills:
 - `php`: general PHP typing, testing, style, and verification guidance.
 - `php-ext-ds-v1`: `ext-ds:^1` API notes.
 - `php-ext-ds-v2`: `ext-ds:^2` API notes.
+- `test-audit`: test authoring and audit guidance for any repository.
 - `typescript-testing`: type-safe TypeScript tests with native assertions.
 
 ## Install
@@ -22,6 +23,7 @@ npx skills add simPod/skills --skill onepassword-cli
 npx skills add simPod/skills --skill php
 npx skills add simPod/skills --skill php-ext-ds-v1
 npx skills add simPod/skills --skill php-ext-ds-v2
+npx skills add simPod/skills --skill test-audit
 npx skills add simPod/skills --skill typescript-testing
 ```
 
@@ -34,6 +36,7 @@ npx @sentry/dotagents add simPod/skills --name onepassword-cli
 npx @sentry/dotagents add simPod/skills --name php
 npx @sentry/dotagents add simPod/skills --name php-ext-ds-v1
 npx @sentry/dotagents add simPod/skills --name php-ext-ds-v2
+npx @sentry/dotagents add simPod/skills --name test-audit
 npx @sentry/dotagents add simPod/skills --name typescript-testing
 npx @sentry/dotagents install
 ```

@@ -1,6 +1,9 @@
 ---
 name: onepassword-cli
-description: Use 1Password CLI safely for op:// secret references, op run, Blackfire credentials, and environment injection. Use when commands need 1Password secrets or when op whoami authentication differs from op run.
+description:
+  Use 1Password CLI safely for op:// secret references, op run, Blackfire
+  credentials, and environment injection. Use when commands need 1Password
+  secrets or when op whoami authentication differs from op run.
 ---
 
 # 1Password CLI
