@@ -52,7 +52,8 @@ metadata:
   function or method signature.
 - Prefix PHPDoc array-shape tags with `@phpstan-` because array shapes are
   analyzer-only detail: use `@phpstan-param`, `@phpstan-return`, or
-  `@phpstan-var` instead of `@param`, `@return`, or `@var`.
+  `@phpstan-var` instead of `@param`, `@return`, or `@var`. This also applies to
+  named aliases of array shapes.
 - Split long PHPDoc array shapes across multiple lines instead of keeping dense
   `@phpstan-var array{...}` annotations inline. For example:
 
