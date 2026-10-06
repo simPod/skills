@@ -5,24 +5,34 @@ saving verified JSON transcripts, then deleting the live sessions. Restore
 imports the original IDs, parents first. This is not the native archive flag and
 not a complete runtime or project backup.
 
-## Use the TUI Commands
+## Use the Desktop or TUI Commands
 
-1. Confirm that the plugin is enabled on the connected server and in the TUI. Do
-   not install it or change global configuration merely to answer a session
-   lookup request.
+1. Confirm that the plugin is enabled on the connected server. For terminal use,
+   also confirm that its TUI companion is loaded. Do not install it or change
+   global configuration merely to answer a session lookup request.
 2. Resolve the exact session ID using this skill. Explain that archiving deletes
    the selected session and its descendants after verification.
 3. Ask the user to run `/session-archive <exact-session-id>` and confirm
-   exclusive use in the plugin's dialog. `/session-archive` without an ID uses
-   the currently open chat, which may not be the chat being discussed.
+   exclusive use in the desktop question panel or TUI dialog. `/session-archive`
+   without an ID uses the currently open chat, which may not be the chat being
+   discussed.
 4. Use `/session-archives` to browse the current project's saved transcripts, or
    `/session-unarchive <archive-uuid>` to restore a specific archive after its
    confirmation. An archive UUID is not a session ID.
 
-These are native TUI slash commands, not prompt templates or server command
-definitions. Do not send them to `session.command` or claim the assistant ran
-them through a shell. A successful plugin operation reports its archive UUID or
-restored root ID; verify that exact ID before reporting success.
+These are native commands, not prompt templates. Desktop commands are registered
+on the server and can use `session.command`, but require the user's answer in a
+native question panel. Do not answer that confirmation for the user or claim a
+pending command succeeded. TUI commands run through the terminal keymap. Neither
+path invokes a model. Verify the reported archive UUID or restored root ID
+before reporting success; the desktop cannot report to a session it just
+deleted.
+
+Desktop commands require the hosting server's managed-service registration and
+verify the exact plugin instance before session access. Standalone or embedded
+hosts without a matching registration are refused. Desktop commands cannot be
+queued. After archiving the open chat, open another session from the sidebar.
+Restoration returns sessions to the list but does not navigate the desktop.
 
 ## Limits and Permissions
 
