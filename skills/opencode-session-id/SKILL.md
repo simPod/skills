@@ -7,7 +7,7 @@ description:
 license: MIT
 compatibility: opencode
 metadata:
-  version: '0.2.0'
+  version: '0.2.1'
   author: simPod
 ---
 
@@ -44,7 +44,8 @@ not have the V1 `session`, `message`, and `part` database contract.
 7. If no distinctive identifier exists, use the single non-archived session only
    after checking all session pages. Otherwise, ask for an exact ID or
    distinctive phrase. A native archive timestamp is not the same as a
-   file-backed archive created by the optional session-archive plugin.
+   file-backed archive created by the optional `opencode-plugin-sessions`
+   plugin.
 
 Session identification is read-only. Do not rename, delete, import, or change
 archive state to find an ID. Publishing the verified ID requires an explicit

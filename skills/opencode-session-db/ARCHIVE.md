@@ -1,6 +1,6 @@
 # Session Archive Plugin
 
-The optional `opencode-session-archive` plugin archives a session family by
+The optional `opencode-plugin-sessions` plugin archives a session family by
 saving verified JSON transcripts, then deleting the live sessions. Restore
 imports the original IDs, parents first. This is not the native archive flag and
 not a complete runtime or project backup.
@@ -34,9 +34,10 @@ restored root ID; verify that exact ID before reporting success.
 - Existing session IDs prevent restoration. Keep the archive after partial
   imports or deletion errors. Do not delete existing sessions to retry.
 - Files are private but unencrypted and can contain secrets. Configurable
-  `storageDirectory` is on the server; project folders use stable keys and
-  retain original working directories. Do not print transcript contents or
-  publish archive files.
+  `storageDirectory` is on the server and defaults to
+  `~/.opencode-session-archives`; project folders use stable keys and retain
+  original working directories. Do not print transcript contents or publish
+  archive files.
 
 When the plugin is absent, explain that the public V2 API has export/import but
 no native archive operation. Exporting a transcript does not itself hide a

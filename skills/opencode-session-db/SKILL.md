@@ -7,7 +7,7 @@ description:
 license: MIT
 compatibility: opencode
 metadata:
-  version: '0.6.0'
+  version: '0.6.1'
   author: simPod
 ---
 
@@ -83,7 +83,7 @@ Inspect the exact session with `session.get`. A present `time.archived` value
 means archived; an absent value means non-archived, not necessarily running.
 
 V2 has no native archive-timestamp update API. Do not edit SQLite or invent a
-request. If the user's session-archive plugin is enabled, follow
+request. If the user's `opencode-plugin-sessions` plugin is enabled, follow
 [ARCHIVE.md](ARCHIVE.md) for its confirmed export/delete/import workflow.
 Without it, explain the limit; do not delete sessions as an ad hoc workaround.
 
