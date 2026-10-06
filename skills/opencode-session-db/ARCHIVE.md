@@ -52,10 +52,23 @@ Restoration returns sessions to the list but does not navigate the desktop.
 - The plugin refuses running, queued, incomplete, forked, reverted, or visibly
   workspace-linked session families. Do not bypass those refusals.
 - Restoration checks that all saved directories exist and are readable on the
-  server, and still resolve to their original project IDs before importing.
-  Project metadata can be cached; imported project IDs and locations are also
-  verified. Recreate removed worktrees or restore their original project
-  identity before retrying. Do not silently remap project IDs.
+  server, and resolve to their original project IDs or explicit mapped
+  destinations before importing. Project metadata can be cached; imported
+  project IDs and locations are also verified. Recreate removed worktrees,
+  restore their original project identity, or configure an explicit restore
+  mapping before retrying. Do not silently remap project IDs.
+- Optional server plugin `restoreMappings` match an exact
+  `from: { projectID, directory }` pair to a `to: { projectID, directory }`
+  pair. Both directories must be absolute server paths. Configure them only
+  after an explicit request to relocate matching sessions. Rules apply to later
+  restores until removed, with no prefix matching or chaining. Desktop and TUI
+  use the same server rules.
+- Mapped root archives appear in the destination picker only for an exact
+  authorized root pair. Archive files are not moved or rewritten. Session IDs,
+  parent links, and transcripts remain unchanged; imported project IDs and
+  directories intentionally change. Paths inside messages, metadata, and
+  permission rules are not rewritten. Review saved permissions before resuming a
+  relocated session.
 - V2.0.24's public HTTP API strips workspace IDs and cannot restore them.
   Visible workspace IDs are refused, but HTTP cannot detect every
   workspace-linked live session. Do not claim workspace identity restoration.
