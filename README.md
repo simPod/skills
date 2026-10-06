@@ -4,8 +4,9 @@ AI agent skills for software development.
 
 This repository contains these skills:
 
-- `opencode-session-db`: OpenCode V2 session lookup, rename, and archive-state
-  inspection through the server API.
+- `opencode-session-db`: OpenCode V2 session lookup and rename through the API,
+  with guidance for the optional transcript archive plugin.
+- `opencode-session-id`: exact current-chat ID lookup through the V2 API.
 - `onepassword-cli`: safe 1Password CLI secret injection.
 - `php`: general PHP typing, testing, style, and verification guidance.
 - `php-ext-ds-v1`: `ext-ds:^1` API notes.
@@ -19,6 +20,7 @@ With `skills`:
 
 ```sh
 npx skills add simPod/skills --skill opencode-session-db
+npx skills add simPod/skills --skill opencode-session-id
 npx skills add simPod/skills --skill onepassword-cli
 npx skills add simPod/skills --skill php
 npx skills add simPod/skills --skill php-ext-ds-v1
@@ -32,6 +34,7 @@ With `dotagents`:
 ```sh
 npx @sentry/dotagents init
 npx @sentry/dotagents add simPod/skills --name opencode-session-db
+npx @sentry/dotagents add simPod/skills --name opencode-session-id
 npx @sentry/dotagents add simPod/skills --name onepassword-cli
 npx @sentry/dotagents add simPod/skills --name php
 npx @sentry/dotagents add simPod/skills --name php-ext-ds-v1
