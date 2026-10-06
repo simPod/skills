@@ -16,10 +16,12 @@ not a complete runtime or project backup.
    the user clearly requests archiving that target. There is no confirmation
    dialog. `/session-archive` without an ID uses the currently open chat, which
    may not be the chat being discussed.
-4. Use `/session-archives` to browse the current project's saved transcripts, or
-   `/session-unarchive <archive-uuid>` to restore a specific archive
-   immediately. Selecting an archive restores it without another confirmation.
-   An archive UUID is not a session ID.
+4. Use `/session-restore` without an ID to browse the current project's saved
+   transcripts, or `/session-restore <archive-uuid>` to restore a specific
+   archive immediately. Selecting an archive restores it without another
+   confirmation. An archive UUID is not a session ID. The old
+   `/session-unarchive` and `/session-archives` commands are no longer
+   registered.
 
 These are native commands, not prompt templates. Desktop commands are registered
 on the server and can use `session.command`. Archive and restore run without
