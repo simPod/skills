@@ -3,11 +3,11 @@ name: opencode-session-db
 description:
   Finds and renames OpenCode V2 sessions through the server API. Use when
   locating a prior OpenCode discussion, fetching a session ID, checking archive
-  status, renaming a session, or unarchiving an OpenCode session.
+  status, renaming a session, or archiving and restoring session transcripts.
 license: MIT
 compatibility: opencode
 metadata:
-  version: '0.5.0'
+  version: '0.6.0'
   author: simPod
 ---
 
@@ -77,16 +77,15 @@ If nothing matches, broaden one term at a time. Read other message types only
 when needed and label those results as possible matches. Report only the ID,
 title, directory, update time, and archive state, not message contents.
 
-## Restore an Archived Session
+## Archive and Restore
 
 Inspect the exact session with `session.get`. A present `time.archived` value
 means archived; an absent value means non-archived, not necessarily running.
 
-The documented V2 session update accepts `title`, `metadata`, and `permissions`,
-not an archive timestamp. There is no documented archive or restore operation.
-Explain this limit. Do not invent a request, update SQLite, or delete and
-reimport a session to work around it. Recheck the V2 contract before any future
-restore attempt, and require an explicit request with the exact ID.
+V2 has no native archive-timestamp update API. Do not edit SQLite or invent a
+request. If the user's session-archive plugin is enabled, follow
+[ARCHIVE.md](ARCHIVE.md) for its confirmed export/delete/import workflow.
+Without it, explain the limit; do not delete sessions as an ad hoc workaround.
 
 ## Rename a Session
 
