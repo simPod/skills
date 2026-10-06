@@ -51,10 +51,11 @@ Restoration returns sessions to the list but does not navigate the desktop.
   user has already accepted it; do not describe the archive as lossless.
 - The plugin refuses running, queued, incomplete, forked, reverted, or visibly
   workspace-linked session families. Do not bypass those refusals.
-- Restoration checks that all saved directories still resolve to their original
-  project IDs before importing. This lookup can be cached; imported project IDs
-  and locations are also verified. Recreate removed worktrees or restore their
-  original project identity before retrying. Do not silently remap project IDs.
+- Restoration checks that all saved directories exist and are readable on the
+  server, and still resolve to their original project IDs before importing.
+  Project metadata can be cached; imported project IDs and locations are also
+  verified. Recreate removed worktrees or restore their original project
+  identity before retrying. Do not silently remap project IDs.
 - V2.0.24's public HTTP API strips workspace IDs and cannot restore them.
   Visible workspace IDs are refused, but HTTP cannot detect every
   workspace-linked live session. Do not claim workspace identity restoration.
