@@ -5,6 +5,11 @@ saving verified JSON transcripts, then deleting the live sessions. Restore
 imports the original IDs, parents first. This is not the native archive flag and
 not a complete runtime or project backup.
 
+The family can span projects. Its complete archive stays in the root project's
+folder, retaining each descendant's project ID and directory. Do not skip
+foreign-project descendants: native deletion removes them too. That root archive
+can contain other projects' private transcripts and permissions.
+
 ## Use the Desktop or TUI Commands
 
 1. Confirm that the plugin is enabled on the connected server. For terminal use,
@@ -44,8 +49,15 @@ Restoration returns sessions to the list but does not navigate the desktop.
   can add work after the final check. Other clients and automations must stop
   writing to the tree before archiving. Disclose this remaining risk unless the
   user has already accepted it; do not describe the archive as lossless.
-- The plugin refuses running, queued, incomplete, forked, reverted, or
-  unsupported cross-project session families. Do not bypass those refusals.
+- The plugin refuses running, queued, incomplete, forked, reverted, or visibly
+  workspace-linked session families. Do not bypass those refusals.
+- Restoration checks that all saved directories still resolve to their original
+  project IDs before importing. This lookup can be cached; imported project IDs
+  and locations are also verified. Recreate removed worktrees or restore their
+  original project identity before retrying. Do not silently remap project IDs.
+- V2.0.24's public HTTP API strips workspace IDs and cannot restore them.
+  Visible workspace IDs are refused, but HTTP cannot detect every
+  workspace-linked live session. Do not claim workspace identity restoration.
 - Existing session IDs prevent restoration. Keep the archive after partial
   imports or deletion errors. Do not delete existing sessions to retry.
 - Files are private but unencrypted and can contain secrets. Configurable
