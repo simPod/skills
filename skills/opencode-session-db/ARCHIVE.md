@@ -12,20 +12,22 @@ not a complete runtime or project backup.
    global configuration merely to answer a session lookup request.
 2. Resolve the exact session ID using this skill. Explain that archiving deletes
    the selected session and its descendants after verification.
-3. Ask the user to run `/session-archive <exact-session-id>` and confirm
-   exclusive use in the desktop question panel or TUI dialog. `/session-archive`
-   without an ID uses the currently open chat, which may not be the chat being
-   discussed.
+3. Run or ask the user to run `/session-archive <exact-session-id>` only after
+   the user clearly requests archiving that target. There is no confirmation
+   dialog. `/session-archive` without an ID uses the currently open chat, which
+   may not be the chat being discussed.
 4. Use `/session-archives` to browse the current project's saved transcripts, or
-   `/session-unarchive <archive-uuid>` to restore a specific archive after its
-   confirmation. An archive UUID is not a session ID.
+   `/session-unarchive <archive-uuid>` to restore a specific archive
+   immediately. Selecting an archive restores it without another confirmation.
+   An archive UUID is not a session ID.
 
 These are native commands, not prompt templates. Desktop commands are registered
-on the server and can use `session.command`, but require the user's answer in a
-native question panel. Do not answer that confirmation for the user or claim a
-pending command succeeded. TUI commands run through the terminal keymap. Neither
-path invokes a model. Verify the reported archive UUID or restored root ID
-before reporting success; the desktop cannot report to a session it just
+on the server and can use `session.command`. Archive and restore run without
+confirmation; only archive selection and completed-result panels use native
+questions. Do not treat a lookup request as permission to archive or restore, or
+claim a pending command succeeded. TUI commands run through the terminal keymap.
+Neither path invokes a model. Verify the reported archive UUID or restored root
+ID before reporting success; the desktop cannot report to a session it just
 deleted.
 
 Desktop commands require the hosting server's managed-service registration and
@@ -37,8 +39,9 @@ Restoration returns sessions to the list but does not navigate the desktop.
 ## Limits and Permissions
 
 - OpenCode V2 has no atomic export-and-delete or session lock. Another client
-  can add work after the final check. Require exclusive use and disclose this
-  remaining risk; do not describe the archive as lossless.
+  can add work after the final check. Other clients and automations must stop
+  writing to the tree before archiving. Disclose this remaining risk unless the
+  user has already accepted it; do not describe the archive as lossless.
 - The plugin refuses running, queued, incomplete, forked, reverted, or
   unsupported cross-project session families. Do not bypass those refusals.
 - Existing session IDs prevent restoration. Keep the archive after partial
