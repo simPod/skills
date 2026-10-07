@@ -50,6 +50,20 @@ metadata:
 - Prefer named arguments for boolean flags in PHP calls.
 - When using named arguments, keep them in the same order as declared in the
   function or method signature.
+- For nested function or method calls, prefer a line break immediately after the
+  outer call's opening `(`. Indent the nested call and keep the outer closing `)`
+  on its own line. Prefer this over `$graphqlAdapter->wait(GraphQL::promiseToExecute(`:
+
+  ```php
+  $graphqlAdapter->wait(
+      GraphQL::promiseToExecute(
+          $graphqlAdapter,
+          $schema,
+          $query,
+      ),
+  );
+  ```
+
 - Prefix PHPDoc array-shape tags with `@phpstan-` because array shapes are
   analyzer-only detail: use `@phpstan-param`, `@phpstan-return`, or
   `@phpstan-var` instead of `@param`, `@return`, or `@var`. This also applies to
