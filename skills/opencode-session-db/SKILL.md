@@ -7,7 +7,7 @@ description:
 license: MIT
 compatibility: opencode
 metadata:
-  version: '0.6.1'
+  version: '0.6.2'
   author: simPod
 ---
 
@@ -79,13 +79,21 @@ title, directory, update time, and archive state, not message contents.
 
 ## Archive and Restore
 
-Inspect the exact session with `session.get`. A present `time.archived` value
-means archived; an absent value means non-archived, not necessarily running.
+For live session status, inspect the exact session with `session.get`. A present
+`time.archived` value means natively archived; an absent value means
+non-archived, not necessarily running. The plugin's saved transcripts are
+different: it deletes live sessions after export, so API absence does not prove
+that no saved archive exists.
 
 V2 has no native archive-timestamp update API. Do not edit SQLite or invent a
 request. If the user's `opencode-plugin-sessions` plugin is enabled, follow
 [ARCHIVE.md](ARCHIVE.md) for its confirmed export/delete/import workflow.
 Without it, explain the limit; do not delete sessions as an ad hoc workaround.
+
+After an explicit restore request, `/session-restore <exact-session-id>` accepts
+either a saved root or descendant ID and restores the whole saved family. The
+live session need not exist. Archive UUIDs remain supported. Follow the project
+scope and match-selection rules in [ARCHIVE.md](ARCHIVE.md).
 
 ## Rename a Session
 
