@@ -9,6 +9,8 @@ This repository contains these skills:
 - `opencode-session-id`: exact current-chat ID lookup through the V2 API.
 - `onepassword-cli`: safe 1Password CLI secret injection.
 - `php`: general PHP typing, testing, style, and verification guidance.
+- `php-doctrine-orm`: Doctrine ORM mapping, queries, persistence, and JSONB
+  guidance.
 - `php-ext-ds-v1`: `ext-ds:^1` API notes.
 - `php-ext-ds-v2`: `ext-ds:^2` API notes.
 - `test-audit`: test authoring and audit guidance for any repository.
@@ -23,6 +25,7 @@ npx skills add simPod/skills --skill opencode-session-db
 npx skills add simPod/skills --skill opencode-session-id
 npx skills add simPod/skills --skill onepassword-cli
 npx skills add simPod/skills --skill php
+npx skills add simPod/skills --skill php-doctrine-orm
 npx skills add simPod/skills --skill php-ext-ds-v1
 npx skills add simPod/skills --skill php-ext-ds-v2
 npx skills add simPod/skills --skill test-audit
@@ -37,6 +40,7 @@ npx @sentry/dotagents add simPod/skills --name opencode-session-db
 npx @sentry/dotagents add simPod/skills --name opencode-session-id
 npx @sentry/dotagents add simPod/skills --name onepassword-cli
 npx @sentry/dotagents add simPod/skills --name php
+npx @sentry/dotagents add simPod/skills --name php-doctrine-orm
 npx @sentry/dotagents add simPod/skills --name php-ext-ds-v1
 npx @sentry/dotagents add simPod/skills --name php-ext-ds-v2
 npx @sentry/dotagents add simPod/skills --name test-audit
