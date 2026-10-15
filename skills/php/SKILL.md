@@ -29,8 +29,8 @@ metadata:
 - Prefer the most concrete correct PHP return type. If a method returns a
   `Generator`, type it as `Generator` rather than broader `iterable`.
 - Prefer native `assert()` with a short description for type narrowing when PHP
-  can express the check. Use PHPDoc assertions only for details PHP cannot check,
-  such as array shapes and collection generics.
+  can express the check. Use PHPDoc assertions only for details PHP cannot
+  check, such as array shapes and collection generics.
 - If `composer.json` requires `ext-ds`, prefer `Ds` collections over arrays or
   SPL collections when modeling maps, sets, queues, stacks, or typed sequences.
 
