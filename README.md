@@ -4,6 +4,7 @@ AI agent skills for software development.
 
 This repository contains these skills:
 
+- `commit`: project commit conventions and intent-based feature/fix classification.
 - `opencode-session-db`: OpenCode V2 session lookup and rename through the API,
   with guidance for the optional transcript archive plugin.
 - `opencode-session-id`: exact current-chat ID lookup through the V2 API.
@@ -21,6 +22,7 @@ This repository contains these skills:
 With `skills`:
 
 ```sh
+npx skills add simPod/skills --skill commit
 npx skills add simPod/skills --skill opencode-session-db
 npx skills add simPod/skills --skill opencode-session-id
 npx skills add simPod/skills --skill onepassword-cli
@@ -36,6 +38,7 @@ With `dotagents`:
 
 ```sh
 npx @sentry/dotagents init
+npx @sentry/dotagents add simPod/skills --name commit
 npx @sentry/dotagents add simPod/skills --name opencode-session-db
 npx @sentry/dotagents add simPod/skills --name opencode-session-id
 npx @sentry/dotagents add simPod/skills --name onepassword-cli
