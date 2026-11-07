@@ -1,13 +1,14 @@
 ---
 name: opencode-session-db
 description:
-  Finds and renames OpenCode V2 sessions through the server API. Use when
-  locating a prior OpenCode discussion, fetching a session ID, checking archive
-  status, renaming a session, or archiving and restoring session transcripts.
+  Finds, renames, archives, and restores OpenCode V2 sessions through the server
+  API. Use when locating a prior OpenCode discussion, fetching a session ID,
+  checking archive status, renaming a session, or archiving and restoring
+  session transcripts.
 license: MIT
 compatibility: opencode
 metadata:
-  version: '0.6.1'
+  version: '0.7.0'
   author: simPod
 ---
 
@@ -17,7 +18,7 @@ Use `opencode api` for session access. V2 has no `opencode db` command. Do not
 read or modify the live SQLite database directly. Keep the skill ID
 `opencode-session-db` unchanged so existing installations still find it.
 
-Before acting, read the V2 [API reference](https://opencode.ai/v2/docs/api) and
+Before acting, read the V2 [API reference](https://opencode.ai/docs/api) and
 [command examples](API.md). Use only V2 documentation, not V1 API contracts. The
 API command uses service discovery and authentication and can start the
 background service. Keep any explicit server and authentication context.
@@ -79,13 +80,31 @@ title, directory, update time, and archive state, not message contents.
 
 ## Archive and Restore
 
-Inspect the exact session with `session.get`. A present `time.archived` value
-means archived; an absent value means non-archived, not necessarily running.
+Use the native API for ordinary archive and restore requests. Check the
+connected server's `/openapi.json` rather than relying on an older version's
+limitations: `session.update` (`PATCH /api/session/{sessionID}`) supports an
+`archived` boolean on current servers. Follow the exact commands in
+[API.md](API.md).
 
-V2 has no native archive-timestamp update API. Do not edit SQLite or invent a
-request. If the user's `opencode-plugin-sessions` plugin is enabled, follow
-[ARCHIVE.md](ARCHIVE.md) for its confirmed export/delete/import workflow.
-Without it, explain the limit; do not delete sessions as an ad hoc workaround.
+1. Resolve and inspect the exact session with `session.get` using the lookup
+   rules above. Archive or restore only after the user's explicit request.
+2. Send only `{"archived":true}` to archive, or `{"archived":false}` to restore.
+   Do not send a timestamp or change the title, metadata, or permissions.
+3. Read the same session again. Verify its ID and location, and verify that
+   `time.archived` is present after archive or absent after restore. A
+   successful update returns no body and is not verification by itself.
+
+Native archival preserves the live session and its transcript; it is not a
+delete, export, or import operation. Do not assume a parent update changes its
+descendants. Do not edit SQLite, use `session.remove`, or invoke an
+export/delete plugin as a substitute for a native archive request.
+
+If the connected server's schema lacks `archived`, report that limit instead of
+inventing an API request. For an explicitly requested legacy file-backed
+archive, or restoring a session absent from the live API, see
+[ARCHIVE.md](ARCHIVE.md). API absence does not prove that no saved transcript
+exists. Preserve the legacy plugin's project scope and whole-family restore
+rules when that path applies.
 
 ## Rename a Session
 

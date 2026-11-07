@@ -7,7 +7,7 @@ description:
 license: MIT
 compatibility: opencode
 metadata:
-  version: '0.2.1'
+  version: '0.2.2'
   author: simPod
 ---
 
@@ -21,7 +21,7 @@ not have the V1 `session`, `message`, and `part` database contract.
 
 1. Load the `opencode-session-db` skill and follow its V2 lookup and
    verification instructions. If it is unavailable, read the V2
-   [API guide](https://opencode.ai/v2/docs/api) and use `opencode api` with the
+   [API guide](https://opencode.ai/docs/api) and use `opencode api` with the
    existing server and authentication context. Do not guess endpoint shapes.
 2. If the user supplied an exact session ID, inspect that ID. Do not substitute
    another session. Prefer an exact current-session ID supplied by the harness
@@ -43,9 +43,10 @@ not have the V1 `session`, `message`, and `part` database contract.
    candidate merely because it is newest.
 7. If no distinctive identifier exists, use the single non-archived session only
    after checking all session pages. Otherwise, ask for an exact ID or
-   distinctive phrase. A native archive timestamp is not the same as a
-   file-backed archive created by the optional `opencode-plugin-sessions`
-   plugin.
+   distinctive phrase. Native archive/restore uses `session.update` with an
+   `archived` boolean, verified through `time.archived`. This is not the same as
+   a legacy file-backed archive. Check the connected server's schema rather than
+   assuming that V2 lacks a native archive API.
 
 Session identification is read-only. Do not rename, delete, import, or change
 archive state to find an ID. Publishing the verified ID requires an explicit

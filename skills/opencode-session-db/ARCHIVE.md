@@ -1,32 +1,62 @@
-# Session Archive Plugin
+# Native Session Archive and Legacy Transcripts
 
-The optional `opencode-plugin-sessions` plugin archives a session family by
-saving verified JSON transcripts, then deleting the live sessions. Restore
-imports the original IDs, parents first. This is not the native archive flag and
-not a complete runtime or project backup.
+## Default: Native API
+
+For ordinary archive or restore requests, use `session.update` with
+`{"archived":true}` or `{"archived":false}`. Inspect the connected server's
+`/openapi.json` first and follow [API.md](API.md) to verify the exact session
+and resulting `time.archived` state. Native archival preserves the session and
+its transcript; it does not require a plugin, export, deletion, or re-import.
+
+Do not route an ordinary archive request through a plugin that exports and
+deletes sessions. Do not assume a slash command uses native archival just
+because its name contains `archive`; inspect its actual behavior before choosing
+it.
+
+If the native field is unavailable, report that server limitation. Do not use
+manual deletion or database writes as a replacement.
+
+## Legacy File-Backed Archives
+
+Older `opencode-plugin-sessions` versions archive a session family by saving
+verified JSON transcripts, then deleting the live sessions. Restore imports the
+original IDs, parents first. This is not the native archive flag and not a
+complete runtime or project backup. Use this path only for an explicitly
+requested file-backed archive or when restoring an existing legacy archive;
+confirm that the enabled plugin version supports the commands and behavior
+below.
 
 The family can span projects. Its complete archive stays in the root project's
 folder, retaining each descendant's project ID and directory. Do not skip
 foreign-project descendants: native deletion removes them too. That root archive
 can contain other projects' private transcripts and permissions.
 
-## Use the Desktop or TUI Commands
+### Legacy Desktop or TUI Commands
 
 1. Confirm that the plugin is enabled on the connected server. For terminal use,
    also confirm that its TUI companion is loaded. Do not install it or change
    global configuration merely to answer a session lookup request.
-2. Resolve the exact session ID using this skill. Explain that archiving deletes
-   the selected session and its descendants after verification.
+2. For file-backed archiving, resolve the exact live session ID using this
+   skill. Explain that this legacy operation deletes the selected session and
+   its descendants after verification.
 3. Run or ask the user to run `/session-archive <exact-session-id>` only after
    the user clearly requests archiving that target. There is no confirmation
    dialog. `/session-archive` without an ID uses the currently open chat, which
    may not be the chat being discussed.
-4. Use `/session-restore` without an ID to browse the current project's saved
-   transcripts, or `/session-restore <archive-uuid>` to restore a specific
-   archive immediately. Selecting an archive restores it without another
-   confirmation. An archive UUID is not a session ID. The old
-   `/session-unarchive` and `/session-archives` commands are no longer
-   registered.
+4. Only after an explicit restore request, use
+   `/session-restore <exact-session-id>` to find an archive containing that root
+   or descendant ID. The live API need not contain the deleted session. Lookup
+   searches only archives available to the current project, including explicitly
+   mapped source archives; it does not search all projects. One match restores
+   immediately. Multiple matches open a picker limited to those archives. No
+   match or a cancelled picker imports nothing. Restoring by a descendant ID
+   restores the whole saved family, including its root, not only that
+   descendant.
+5. Use `/session-restore` without an ID to browse the current project's saved
+   transcripts. `/session-restore <archive-uuid>` remains supported to restore a
+   specific archive immediately. Selecting an archive restores it without
+   another confirmation. The old `/session-unarchive` and `/session-archives`
+   commands are no longer registered in the documented legacy plugin.
 
 These are native commands, not prompt templates. Desktop commands are registered
 on the server and can use `session.command`. Archive and restore run without
@@ -43,7 +73,7 @@ hosts without a matching registration are refused. Desktop commands cannot be
 queued. After archiving the open chat, open another session from the sidebar.
 Restoration returns sessions to the list but does not navigate the desktop.
 
-## Limits and Permissions
+### Legacy Limits and Permissions
 
 - OpenCode V2 has no atomic export-and-delete or session lock. Another client
   can add work after the final check. Other clients and automations must stop
@@ -80,7 +110,8 @@ Restoration returns sessions to the list but does not navigate the desktop.
   original working directories. Do not print transcript contents or publish
   archive files.
 
-When the plugin is absent, explain that the public V2 API has export/import but
-no native archive operation. Exporting a transcript does not itself hide a
-session. Do not replace the guarded plugin with manual recursive deletion unless
-the user explicitly requests a separate destructive recovery procedure.
+When the legacy plugin is absent, its saved transcripts cannot be restored
+through these commands. Native archive/restore still works when the connected
+server supports the `archived` field. Exporting a transcript does not itself
+hide a session. Do not replace the guarded legacy plugin with manual recursive
+deletion.

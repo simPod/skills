@@ -2,8 +2,10 @@
 
 Use `opencode api` with the same server context as the current chat. These
 examples use operation IDs from the V2
-[API contract](https://opencode.ai/v2/openapi.json). Check the current
-[API reference](https://opencode.ai/v2/docs/api) before acting.
+[API contract](https://opencode.ai/docs/openapi.json). Check the current
+[API reference](https://opencode.ai/docs/api) and the connected server's
+`/openapi.json` before acting. The connected server's schema determines which
+operations and fields are available.
 
 ## List and Inspect
 
@@ -79,22 +81,55 @@ only the newline added by the heredoc, not intentional newlines in the title.
 
 `session.update` is `PATCH /api/session/{sessionID}` and returns HTTP 204 on
 success. Confirm that the final `data.id` and `data.title` equal the requested
-values. Do not send an archive timestamp: the V2 update contract has no such
-field and no documented restore operation.
+values. Send only `title` for a rename; archive and restore use a separate
+boolean field, not an archive timestamp.
 
-## Archive Storage Is Not an Archive API
+## Native Archive and Restore
 
-In [V2.0.24](https://github.com/anomalyco/opencode/tree/v2.0.24), the V2 table
-is `session_v2`, and `time_archived` stores a nullable Unix timestamp in
-milliseconds. The legacy `session` table is not the V2 session table.
+An ordinary archive request changes native session state without deleting the
+session or transcript. A restore clears that state; it does not import a copy.
+Resolve the exact session and require an explicit request before either update.
 
-Directly setting this column has only partial effects: the web/desktop app hides
-archived sessions in several views, but the API and TUI picker still list them.
-SQL writes also bypass session events, so open clients can remain stale. This is
-not server-enforced archival.
+Check support on the connected server:
 
-Do not add or run a direct-write workaround without explicit user approval. Any
-separately approved offline procedure needs all database-using OpenCode
-processes stopped, a consistent backup, the exact database path and session ID,
-and clients restarted afterward. Do not call `opencode api` during offline work:
-it can start the service. Prefer a supported archive API when available.
+```sh
+opencode api get /openapi.json | jq \
+  '.paths["/api/session/{sessionID}"].patch.requestBody.content["application/json"].schema.properties.archived'
+```
+
+The schema must accept `archived` as a boolean. Older servers may lack this
+field; do not infer support or absence from the general V2 label. If
+unsupported, report the limitation. Do not invent another endpoint, write
+SQLite, or fall back to export-and-delete for an ordinary archive request.
+
+Archive:
+
+```sh
+SESSION_ID='<exact-session-id>'
+opencode api session.get --param "sessionID=$SESSION_ID"
+opencode api session.update --param "sessionID=$SESSION_ID" \
+  --data '{"archived":true}'
+opencode api session.get --param "sessionID=$SESSION_ID"
+```
+
+Restore, only after an explicit restore request:
+
+```sh
+SESSION_ID='<exact-session-id>'
+opencode api session.get --param "sessionID=$SESSION_ID"
+opencode api session.update --param "sessionID=$SESSION_ID" \
+  --data '{"archived":false}'
+opencode api session.get --param "sessionID=$SESSION_ID"
+```
+
+Both updates return HTTP 204. Verify the final `data.id` and
+`location.directory` against the inspected session. After archive,
+`data.time.archived` must be present; after restore it must be absent. Repeating
+the current boolean state is a no-op. Send only `archived`, not `time`,
+`time.archived`, `time_archived`, or unrelated mutable fields. Do not assume the
+update applies to descendants.
+
+For a session missing from the live API, inspect the applicable legacy archive
+workflow in [ARCHIVE.md](ARCHIVE.md). A native archive flag and a saved
+transcript are different; neither a successful HTTP update nor a missing live
+session proves that a file-backed archive was created.

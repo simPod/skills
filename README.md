@@ -4,8 +4,8 @@ AI agent skills for software development.
 
 This repository contains these skills:
 
-- `opencode-session-db`: OpenCode V2 session lookup and rename through the API,
-  with guidance for the optional transcript archive plugin.
+- `opencode-session-db`: OpenCode V2 session lookup, rename, and native
+  archive/restore through the API, with guidance for legacy transcript archives.
 - `opencode-session-id`: exact current-chat ID lookup through the V2 API.
 - `onepassword-cli`: safe 1Password CLI secret injection.
 - `php`: general PHP typing, testing, style, and verification guidance.
