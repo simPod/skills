@@ -34,6 +34,22 @@ metadata:
 - If `composer.json` requires `ext-ds`, prefer `Ds` collections over arrays or
   SPL collections when modeling maps, sets, queues, stacks, or typed sequences.
 
+## Invariants and unreachable code
+
+- When PSL is available, use `Psl\invariant()` for a runtime condition or
+  `Psl\invariant_violation()` inside an existing failure branch. Give a short,
+  specific diagnostic message, for example
+  `Psl\invariant_violation('Flop returned a non-Uplink link.');`.
+- Use these checks for broken runtime contracts, unexpected external responses,
+  or invalid state. Do not use native `assert()` for required runtime validation;
+  assertions can be disabled. Handle expected input errors with normal validation
+  or domain exceptions instead.
+- Reserve `Cdn77\Functions\absurd()` for paths ruled out by a local invariant,
+  such as catching an exception that cannot occur for a fixed, valid input.
+  Establish why the path is unreachable; merely expecting success is not enough.
+- Do not replace every `absurd()` mechanically or add a dependency solely to
+  follow this guidance. Check the installed library and project conventions.
+
 ## Tests
 
 - Follow the repository's own PHPUnit command first; common forms are
