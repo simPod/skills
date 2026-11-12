@@ -1,11 +1,22 @@
 ---
 name: testing
-description: Apply shared policy for choosing, reviewing, and running tests and other validation. Use when adding, changing, removing, or reviewing tests; diagnosing analyzer or CI results; or running validation. Combine with language- and framework-specific testing skills when relevant.
+description: Apply shared policy for choosing, reviewing, cleaning up, and running tests and other validation. Use when adding, changing, removing, or reviewing tests; completing implementation before publication; diagnosing analyzer or CI results; or running validation. Combine with language- and framework-specific testing skills when relevant.
 ---
 
 # Testing Policy
 
 Use this policy together with applicable project instructions and specialized skills such as `test-audit`, `typescript-testing`, `frontend-testing`, and `tdd`. This skill defines shared quality policy; specialized skills define their own procedures.
+
+## Mandatory test-value review
+
+Test quality is part of implementation, not a separate optional task. During authorized work, actively question and clean up tests in the active change and nearby overlapping coverage. Do not wait for the user to request a test audit. For question-only reviews, report candidates without editing.
+
+- Before adding a test, identify the concrete incorrect outcome it prevents, the production decision that owns it, and why existing coverage cannot catch it. Use the smallest fixture that distinguishes the regression. Do not add a test merely because a field, callback, branch, or type exists.
+- Before publication, challenge every added or changed test against its production owner and existing tests: would a credible regression fail it for the intended reason? Does another test already prove the same guarantee? Does the fixture or mock supply the result the test claims production should produce? Are all setup, assertions, and helper code necessary?
+- Apply verified simplifications in scope: delete redundant scenarios, trivial forwarding assertions, and unused fixture or mock setup. Keep each unique material guarantee at its strongest practical boundary; move unique assertions before removing a weaker duplicate. Do not preserve duplicate coverage just because both tests pass, and do not add production seams or generic test infrastructure to retain low-value tests.
+- Recheck the retained proof after cleanup. Fewer tests is not the goal: preserve critical authorization, data-integrity, protocol, and identity contracts. Briefly report meaningful cleanup or why apparently overlapping tests protect distinct failures; a green suite alone is not a test-quality review.
+
+For example, when an endpoint scenario already proves mapped output and one upstream fetch, a second happy-path test of the same reader needs a distinct contract to justify keeping it. A separate incomplete-results rejection test can still be necessary.
 
 ## Choosing and reviewing tests
 
@@ -16,7 +27,6 @@ Use this policy together with applicable project instructions and specialized sk
 - Avoid standalone tests with large fixtures, router setups, or mocks for trivial, low-risk UI wiring. Prefer a small assertion in relevant coverage when useful, otherwise use static checks and focused review. Keep dedicated coverage for material consequences.
 - Keep focused, type-specific `testCache` coverage for identifiers and cached value objects. When production compares objects with `===`, equal inputs returning the same instance is a correctness contract, not only a performance detail or trivial identity check. Shared cache-trait tests do not replace the concrete type's factory contract; do not remove or move these tests solely to reduce duplication or test count.
 - Avoid tautological tests: assertions must distinguish the incorrect outcome from correct behavior.
-- Before publication, review all added or changed tests against production owners and existing coverage. Remove duplicate coverage and trivial forwarding assertions; use the smallest fixture that distinguishes the credible regression. Apply verified simplifications within authorized implementation work; for question-only reviews, report them without editing.
 - Reduce duplication by deleting repeated cases and unused setup, not by merging unrelated behavior into one large test or adding production seams. Keep each test focused on one operation or coherent lifecycle. Separate distinct failure modes, edge cases, and scenarios needing different setup.
 - Do not remove unique critical proof or weaken quality gates to reduce test count. Passing CI does not prove a test is useful or simple.
 - Organize tests around public operations and observable results. Prefer operation-level scenarios and meaningful named provider cases over narrow tests named only for the latest changed field. When changing behavior, first extend the owning operation-level scenario or named provider cases where practical; do not merely rename a narrow test or add speculative cases to make it appear generic. For validation, cover meaningful accepted and rejected forms at the boundary.
