@@ -28,6 +28,20 @@ metadata:
   EntityManager operations outside entities.
 - Align PHP types, ORM types, nullability, and database constraints. Use
   existing value objects and custom DBAL types at persistence boundaries.
+- Prefer concise mappings: rely on the configured naming strategy instead of
+  repeating default column, table, or join-column names. Omit mapping options
+  the installed ORM and configured typed field mapper infer from PHP types,
+  such as scalar types, backed-enum types, or association targets, only after
+  confirming that inference is supported for that mapping. Keep explicit types
+  for custom types and non-default storage such as `TEXT`; retain actual schema
+  overrides and constraints, including precision, nullability, cascade, and
+  `onDelete`. A nullable PHP type does not by itself guarantee a nullable
+  database column.
+- Inspect configured DBAL datetime types before adding timezone conversion.
+  When the type owns UTC normalization on write and hydration, do not duplicate
+  it with `setTimezone()` or `asUtc()` helpers; keep such conversion only for a
+  separate in-memory domain requirement. Preserve instants and supported
+  microsecond precision through the ORM type.
 - Initialize to-many associations with Doctrine collections and declare their
   element types. Do not replace persistent associations with arrays or `Ds`
   types.
