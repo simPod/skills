@@ -42,6 +42,15 @@ metadata:
   it with `setTimezone()` or `asUtc()` helpers; keep such conversion only for a
   separate in-memory domain requirement. Preserve instants and supported
   microsecond precision through the ORM type.
+- Registering a DBAL type does not teach ORM to infer it from a PHP class.
+  Keep `#[ORM\Column(type: 'uuid')]` for Symfony `Uuid` unless a configured
+  typed field mapper maps that class to the UUID type.
+- For an owning many-to-many association, verify the join table, join keys,
+  referenced columns, and foreign-key deletion rules before declaring them.
+  Doctrine ORM 3.8 supplies `ON DELETE CASCADE` for implicit join columns on
+  both sides. If the naming strategy and these defaults match the schema,
+  use only `#[ORM\ManyToMany(targetEntity: Label::class)]`. A foreign-key
+  cascade deletes join rows, not entities on the other side.
 - Initialize to-many associations with Doctrine collections and declare their
   element types. Do not replace persistent associations with arrays or `Ds`
   types.
@@ -77,6 +86,9 @@ metadata:
 
 ## Queries and Persistence
 
+- In repository interfaces and implementations, put write methods (`add`,
+  `remove`, `save`, and similar methods) before read methods. Keep the
+  constructor first.
 - Bind query parameters. Never concatenate untrusted values into DQL or SQL;
   allowlist dynamic field names and sort directions.
 - Select the data the operation needs. Avoid N+1 queries with deliberate fetch
