@@ -41,9 +41,9 @@ metadata:
   specific diagnostic message, for example
   `Psl\invariant_violation('Flop returned a non-Uplink link.');`.
 - Use these checks for broken runtime contracts, unexpected external responses,
-  or invalid state. Do not use native `assert()` for required runtime validation;
-  assertions can be disabled. Handle expected input errors with normal validation
-  or domain exceptions instead.
+  or invalid state. Do not use native `assert()` for required runtime
+  validation; assertions can be disabled. Handle expected input errors with
+  normal validation or domain exceptions instead.
 - Reserve `Cdn77\Functions\absurd()` for paths ruled out by a local invariant,
   such as catching an exception that cannot occur for a fixed, valid input.
   Establish why the path is unreachable; merely expecting success is not enough.

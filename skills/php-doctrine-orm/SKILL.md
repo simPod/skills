@@ -30,27 +30,27 @@ metadata:
   existing value objects and custom DBAL types at persistence boundaries.
 - Prefer concise mappings: rely on the configured naming strategy instead of
   repeating default column, table, or join-column names. Omit mapping options
-  the installed ORM and configured typed field mapper infer from PHP types,
-  such as scalar types, backed-enum types, or association targets, only after
+  the installed ORM and configured typed field mapper infer from PHP types, such
+  as scalar types, backed-enum types, or association targets, only after
   confirming that inference is supported for that mapping. Keep explicit types
   for custom types and non-default storage such as `TEXT`; retain actual schema
   overrides and constraints, including precision, nullability, cascade, and
   `onDelete`. A nullable PHP type does not by itself guarantee a nullable
   database column.
-- Inspect configured DBAL datetime types before adding timezone conversion.
-  When the type owns UTC normalization on write and hydration, do not duplicate
-  it with `setTimezone()` or `asUtc()` helpers; keep such conversion only for a
+- Inspect configured DBAL datetime types before adding timezone conversion. When
+  the type owns UTC normalization on write and hydration, do not duplicate it
+  with `setTimezone()` or `asUtc()` helpers; keep such conversion only for a
   separate in-memory domain requirement. Preserve instants and supported
   microsecond precision through the ORM type.
-- Registering a DBAL type does not teach ORM to infer it from a PHP class.
-  Keep `#[ORM\Column(type: 'uuid')]` for Symfony `Uuid` unless a configured
-  typed field mapper maps that class to the UUID type.
+- Registering a DBAL type does not teach ORM to infer it from a PHP class. Keep
+  `#[ORM\Column(type: 'uuid')]` for Symfony `Uuid` unless a configured typed
+  field mapper maps that class to the UUID type.
 - For an owning many-to-many association, verify the join table, join keys,
   referenced columns, and foreign-key deletion rules before declaring them.
   Doctrine ORM 3.8 supplies `ON DELETE CASCADE` for implicit join columns on
-  both sides. If the naming strategy and these defaults match the schema,
-  use only `#[ORM\ManyToMany(targetEntity: Label::class)]`. A foreign-key
-  cascade deletes join rows, not entities on the other side.
+  both sides. If the naming strategy and these defaults match the schema, use
+  only `#[ORM\ManyToMany(targetEntity: Label::class)]`. A foreign-key cascade
+  deletes join rows, not entities on the other side.
 - Initialize to-many associations with Doctrine collections and declare their
   element types. Do not replace persistent associations with arrays or `Ds`
   types.
