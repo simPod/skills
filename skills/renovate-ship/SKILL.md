@@ -10,10 +10,11 @@ description:
 
 Use the current OpenCode session and its GitLab project. Run without arguments
 to track open Renovate MRs only. In the same session, `see <dependency>` shows
-release notes without changing anything, `merge <dependency>` authorizes
-approval and merge of one MR, and `fix <dependency>` authorizes a CI fix on one
-MR, not approval or merge. The slash command also accepts these requests as
-arguments. Examples: `see symfony`, `merge symfony`, `fix symfony/contracts`.
+release notes without changing anything, `merge <dependency>` authorizes waiting
+for CI, fixing in-scope CI failures, and approving and merging one MR.
+`fix <dependency>` authorizes a CI fix on one MR, not approval or merge. The
+slash command also accepts these requests as arguments. Examples: `see symfony`,
+`merge symfony`, `fix symfony/contracts`.
 
 ## Discover open Renovate MRs
 
@@ -67,15 +68,18 @@ Do not change tracker state, the MR, or its branch.
 
 ## `merge <dependency>`
 
-1. Read the live MR, diff, current head SHA, pipeline, and approval status. Make
-   sure the update matches the request, the MR is not a draft, and required CI
-   checks for this revision pass. If CI is pending or failed, or a material
-   concern blocks merge, report it. Do not fix CI or schedule an auto-merge.
-2. Verify the authenticated GitLab account is the user's intended account. If it
+1. Read the live MR and diff. Make sure the update matches the request, the MR
+   is not a draft, and no material concern blocks merge.
+2. Follow [the CI workflow](references/ci.md) for the selected MR. Wait for
+   queued or running checks. If a required check fails, fix it within scope
+   without asking again, then wait for CI on the new revision. Continue the
+   original merge once all required checks pass for the current head. Do not
+   schedule an auto-merge or ask the user to repeat the merge command.
+3. Verify the authenticated GitLab account is the user's intended account. If it
    has not approved the current revision, use
    `glab mr approve <iid> --repo <project-url> --sha <head-sha>`. Do not use
    another identity, post a comment, or bypass approval rules.
-3. Confirm GitLab permits merge, then run
+4. Confirm GitLab permits merge, then run
    `glab mr merge <iid> --repo <project-url> --sha <head-sha> --auto-merge=false --yes`.
    Use the project's merge settings; do not bypass protections or substitute an
    approval or merge of a different revision. Check the live MR state and only
@@ -83,15 +87,8 @@ Do not change tracker state, the MR, or its branch.
 
 ## `fix <dependency>`
 
-1. Inspect the current MR pipeline and failed job logs. Identify the failure
-   caused by the update; distinguish it from an unrelated or transient failure.
-   Leave dependency and security audit findings and jobs alone unless separately
-   requested.
-2. Fix the cause in a clean worktree for the existing MR source branch. Preserve
-   the Renovate update and any unrelated changes. Do not weaken checks. Push
-   only to that MR's source branch, then check CI for the pushed revision. If
-   the branch is not writable, report the blocker instead of creating another
-   MR. Do not approve or merge as part of the fix.
+Follow [the CI workflow](references/ci.md) for the selected MR. Do not approve
+or merge as part of the fix.
 
 After each merge or fix attempt, including a blocked attempt, list the project's
 open Renovate MRs again and track new ones in the same session. Report the

@@ -66,4 +66,5 @@ Installing the skill alone does not register the command.
 Run `/renovate-ship` in a GitLab repository with authenticated `glab` and the
 OpenCode MR tracker installed. Then say `see symfony` to get a summary of the
 MR's release notes, `fix symfony` to fix CI, or `merge symfony` to approve and
-merge. You can also run `/renovate-ship see symfony/contracts`.
+merge. The `merge` command also waits for CI and fixes in-scope failures before
+merging. You can also run `/renovate-ship see symfony/contracts`.
