@@ -13,8 +13,8 @@ This repository contains these skills:
   guidance.
 - `php-ext-ds-v1`: `ext-ds:^1` API notes.
 - `php-ext-ds-v2`: `ext-ds:^2` API notes.
-- `renovate-ship`: track open Renovate MRs in OpenCode, then fix CI or approve
-  and merge a selected GitLab MR on request.
+- `renovate-ship`: track open Renovate MRs in OpenCode, summarize release notes,
+  fix CI, or approve and merge a selected GitLab MR on request.
 - `test-audit`: test authoring and audit guidance for any repository.
 - `testing`: shared policy for test selection, review, analyzer results,
   validation, and CI.
@@ -64,5 +64,6 @@ into `~/.config/opencode/commands/` (or `.opencode/commands/` for one project).
 Installing the skill alone does not register the command.
 
 Run `/renovate-ship` in a GitLab repository with authenticated `glab` and the
-OpenCode MR tracker installed. Then say `merge symfony` or `fix symfony` in the
-same session. You can also run `/renovate-ship merge symfony/contracts`.
+OpenCode MR tracker installed. Then say `see symfony` to get a summary of the
+MR's release notes, `fix symfony` to fix CI, or `merge symfony` to approve and
+merge. You can also run `/renovate-ship see symfony/contracts`.
