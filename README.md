@@ -13,8 +13,11 @@ This repository contains these skills:
   guidance.
 - `php-ext-ds-v1`: `ext-ds:^1` API notes.
 - `php-ext-ds-v2`: `ext-ds:^2` API notes.
+- `renovate-ship`: track open Renovate MRs in OpenCode, then fix CI or approve
+  and merge a selected GitLab MR on request.
 - `test-audit`: test authoring and audit guidance for any repository.
-- `testing`: shared policy for test selection, review, analyzer results, validation, and CI.
+- `testing`: shared policy for test selection, review, analyzer results,
+  validation, and CI.
 - `typescript-testing`: type-safe TypeScript tests with native assertions.
 
 ## Install
@@ -29,6 +32,7 @@ npx skills add simPod/skills --skill php
 npx skills add simPod/skills --skill php-doctrine-orm
 npx skills add simPod/skills --skill php-ext-ds-v1
 npx skills add simPod/skills --skill php-ext-ds-v2
+npx skills add simPod/skills --skill renovate-ship
 npx skills add simPod/skills --skill test-audit
 npx skills add simPod/skills --skill testing
 npx skills add simPod/skills --skill typescript-testing
@@ -45,8 +49,20 @@ npx @sentry/dotagents add simPod/skills --name php
 npx @sentry/dotagents add simPod/skills --name php-doctrine-orm
 npx @sentry/dotagents add simPod/skills --name php-ext-ds-v1
 npx @sentry/dotagents add simPod/skills --name php-ext-ds-v2
+npx @sentry/dotagents add simPod/skills --name renovate-ship
 npx @sentry/dotagents add simPod/skills --name test-audit
 npx @sentry/dotagents add simPod/skills --name testing
 npx @sentry/dotagents add simPod/skills --name typescript-testing
 npx @sentry/dotagents install
 ```
+
+### OpenCode `/renovate-ship` command
+
+Install the skill, then copy its bundled
+[`commands/renovate-ship.md`](skills/renovate-ship/commands/renovate-ship.md)
+into `~/.config/opencode/commands/` (or `.opencode/commands/` for one project).
+Installing the skill alone does not register the command.
+
+Run `/renovate-ship` in a GitLab repository with authenticated `glab` and the
+OpenCode MR tracker installed. Then say `merge symfony` or `fix symfony` in the
+same session. You can also run `/renovate-ship merge symfony/contracts`.
