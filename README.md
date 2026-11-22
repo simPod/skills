@@ -13,7 +13,8 @@ This repository contains these skills:
   guidance.
 - `php-ext-ds-v1`: `ext-ds:^1` API notes.
 - `php-ext-ds-v2`: `ext-ds:^2` API notes.
-- `php-symfony`: attribute-first Symfony service wiring and container verification.
+- `php-symfony`: attribute-first Symfony service wiring and container
+  verification.
 - `renovate-ship`: track open Renovate PRs and MRs in OpenCode, summarize
   release notes for one or all, or fix CI or merge a selected update.
 - `test-audit`: test authoring and audit guidance for any repository.

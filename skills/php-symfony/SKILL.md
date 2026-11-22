@@ -1,6 +1,9 @@
 ---
 name: php-symfony
-description: Guides attribute-first Symfony service wiring and container verification. Use when editing Symfony services, dependency injection, autowiring, service discovery, Messenger handlers, Mailer wiring, or test service overrides.
+description:
+  Guides attribute-first Symfony service wiring and container verification. Use
+  when editing Symfony services, dependency injection, autowiring, service
+  discovery, Messenger handlers, Mailer wiring, or test service overrides.
 ---
 
 # PHP Symfony
