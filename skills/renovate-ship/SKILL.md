@@ -3,18 +3,24 @@ name: renovate-ship
 description:
   Tracks open Renovate requests in OpenCode and acts on selected GitHub and
   GitLab dependency updates. Use when the user runs /renovate-ship or asks to
-  see, merge, or fix a dependency update in an active Renovate shipping session.
+  list open Renovate requests or see, merge, or fix a selected dependency
+  update.
 ---
 
 # Renovate shipping
 
-Use the current OpenCode session and repository. With no arguments, only
-discover and track open Renovate requests. `see <dependency>` shows release
-notes without changing anything. `merge <dependency>` authorizes waiting for CI,
-fixing in-scope CI failures, and merging one request, including GitLab's
-approval step. `fix <dependency>` authorizes a CI fix on one request, not
-approval or merge. For other arguments, show usage without taking action.
-Examples: `see symfony`, `merge doctrine/orm`, `fix tailwind-merge`.
+Use the current OpenCode session and repository. Accept only these forms:
+
+- No arguments: discover and track open Renovate requests.
+- `see all` (alias `see all mrs`): list open Renovate requests without tracking.
+- `see <dependency>`: show release notes for one update without making changes.
+- `merge <dependency>`: wait for CI, fix in-scope CI failures, and merge one
+  request, including GitLab's approval step.
+- `fix <dependency>`: fix CI for one request without approving or merging it.
+
+Match the exact list forms before `see <dependency>`. For other arguments, show
+usage without taking action. Examples: `see all`, `see symfony`,
+`merge doctrine/orm`, `fix tailwind-merge`.
 
 ## Discover open Renovate requests
 
@@ -28,6 +34,15 @@ Examples: `see symfony`, `merge doctrine/orm`, `fix tailwind-merge`.
    paginated project MRs API). Identify the Renovate author from project
    configuration or GitLab author metadata, not just the title, label, or
    branch. Include grouped updates and drafts. Report discovery errors.
+
+## `see all`
+
+Use the discovery steps above. Report the total and list each open Renovate
+request with its title and canonical link. Mark drafts. If discovery succeeds
+and there are no matches, say so.
+
+Stop after listing. Do not select a dependency, summarize release notes, run
+tracking or automatic adoption commands, or change any request or branch.
 
 ## Track open requests
 
