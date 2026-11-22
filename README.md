@@ -13,6 +13,7 @@ This repository contains these skills:
   guidance.
 - `php-ext-ds-v1`: `ext-ds:^1` API notes.
 - `php-ext-ds-v2`: `ext-ds:^2` API notes.
+- `php-symfony`: attribute-first Symfony service wiring and container verification.
 - `renovate-ship`: track open Renovate PRs and MRs in OpenCode, summarize
   release notes for one or all, or fix CI or merge a selected update.
 - `test-audit`: test authoring and audit guidance for any repository.
@@ -32,6 +33,7 @@ npx skills add simPod/skills --skill php
 npx skills add simPod/skills --skill php-doctrine-orm
 npx skills add simPod/skills --skill php-ext-ds-v1
 npx skills add simPod/skills --skill php-ext-ds-v2
+npx skills add simPod/skills --skill php-symfony
 npx skills add simPod/skills --skill renovate-ship
 npx skills add simPod/skills --skill test-audit
 npx skills add simPod/skills --skill testing
@@ -49,6 +51,7 @@ npx @sentry/dotagents add simPod/skills --name php
 npx @sentry/dotagents add simPod/skills --name php-doctrine-orm
 npx @sentry/dotagents add simPod/skills --name php-ext-ds-v1
 npx @sentry/dotagents add simPod/skills --name php-ext-ds-v2
+npx @sentry/dotagents add simPod/skills --name php-symfony
 npx @sentry/dotagents add simPod/skills --name renovate-ship
 npx @sentry/dotagents add simPod/skills --name test-audit
 npx @sentry/dotagents add simPod/skills --name testing
